@@ -26,7 +26,7 @@ main().then(res => {
 })
 
 async function main() {
-  await mongoose.connect('mongodb://localhost:27017/portfolioDB');
+  await mongoose.connect("mongodb+srv://2004dikshityadav:pRmbupBnazgNPyrt@cluster0.nyw7aq0.mongodb.net/portfolioDB?retryWrites=true&w=majority&appName=Cluster0");
 }
 
 //ejs
