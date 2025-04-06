@@ -38,13 +38,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static('uploads'));
 
-
-
-//sign up
-app.get('/', async (req, res) => { 
-res.render("signup.ejs")
-});
-
 //home 
 app.get('/', async (req, res) => {
   try {
