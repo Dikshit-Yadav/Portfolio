@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Projects</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+  <header>
+    <h1>My Portfolio</h1>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/projects">Projects</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+  <h2>Edit Project</h2>
+
+  <form action="/projects/<%= project._id %>/edit" method="POST" enctype="multipart/form-data">
+    <label>Project Name:</label>
+    <input type="text" name="name" value="<%= project.name %>" required>
+  
+    <label>Description:</label>
+    <textarea name="description" required><%= project.description %></textarea>
+  
+    <label>GitHub Link:</label>
+    <input type="url" name="githubLink" value="<%= project.githubLink %>">
+  
+    <label>Live Demo:</label>
+    <input type="url" name="liveDemo" value="<%= project.liveDemo %>">
+    
+    <label>Technologies (comma separated):</label>
+    <input type="text" name="technologies" value="<%= project.technologies.join(', ') %>">
+  
+    <label>Current Image:</label><br>
+    <% if (project.image) { %>
+      <img src="/uploads/<%= project.image %>" alt="Project Image" style="max-width: 200px;"><br>
+    <% } else { %>
+      <p>No image uploaded.</p>
+    <% } %>
+  
+    <label>Change Image:</label>
+    <input type="file" name="image">
+  
+    <button type="submit">Update Project</button>
+  </form>
+  
+  <footer>
+    <ul class="footer-nav">
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/projects">Projects</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+
+  <div class="social-links">
+    <a href="https://github.com/Dikshit-Yadav/Projects" target="_blank">GitHub</a>
+    <a href="https://www.linkedin.com/in/dikshit-yadav-1b727a293/" target="_blank">LinkedIn</a>
+    <a href="mailto:2004dikshityadav@email.com">Email</a>
+  </div>
+
+  <p>&copy; <%= new Date().getFullYear() %> Dikshit Yadav</p>
+</footer>
+
+
+</body>
+
+</html>

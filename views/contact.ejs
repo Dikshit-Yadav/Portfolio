@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Me</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>My Portfolio</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/projects">Projects</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="contact">
+            <h2>Contact Me</h2>
+
+            <% if (successMessage) { %>
+              <p class="success"><%= successMessage %></p>
+            <% } %>
+            <% if (errorMessage) { %>
+              <p class="error"><%= errorMessage %></p>
+            <% } %>
+            
+            <p>Feel free to reach out using the form below or my contact links.</p>
+
+            <div class="contact-container">
+                <form action="/contact" method="POST" class="contact-form">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+
+                <div class="contact-info">
+                    <h3>Contact Information</h3>
+                    <p><strong>Email:</strong> <a href="mailto:2004dikshityadav@email.com">2004dikshityadav@email.com</a></p>
+                    <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/dikshit-yadav-1b727a293/" target="_blank">View Profile</a></p>
+                    <p><strong>GitHub:</strong> <a href="https://github.com/Dikshit-Yadav" target="_blank">View Repositories</a></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <ul class="footer-nav">
+          <li><a href="/">Home</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/projects">Projects</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+    
+      <div class="social-links">
+        <a href="https://github.com/Dikshit-Yadav/Projects" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/in/dikshit-yadav-1b727a293/" target="_blank">LinkedIn</a>
+        <a href="mailto:2004dikshityadav@email.com">Email</a>
+      </div>
+    
+      <p>&copy; <%= new Date().getFullYear() %> Dikshit Yadav</p>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>My Portfolio</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/projects">Projects</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <h2>Add New Project</h2>
+    <form id="projectForm" action="/projects" method="POST" enctype="multipart/form-data">
+    
+        <label for="name">Project Name:</label>
+        <input type="text" id="name" name="name" required>
+    
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required></textarea>
+    
+        <label for="githubLink">GitHub Link:</label>
+        <input type="url" id="githubLink" name="githubLink">
+    
+        <label for="liveDemo">Live Demo Link:</label>
+        <input type="url" id="liveDemo" name="liveDemo" placeholder="Live Demo URL">
+    
+        <label for="image">Upload Image:</label>
+        <input type="file" id="image" name="image" accept="image/*">
+    
+        <label for="technologies">Technologies:</label>
+        <input type="text" id="technologies" name="technologies" placeholder="HTML, CSS, JS">
+    
+        <button type="submit">Add Project</button>
+    </form>
+    
+    <footer>
+        <ul class="footer-nav">
+          <li><a href="/">Home</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/projects">Projects</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+    
+      <div class="social-links">
+        <a href="https://github.com/Dikshit-Yadav/Projects" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/in/dikshit-yadav-1b727a293/" target="_blank">LinkedIn</a>
+        <a href="mailto:2004dikshityadav@email.com">Email</a>
+      </div>
+    
+      <p>&copy; <%= new Date().getFullYear() %> Dikshit Yadav</p>
+    </footer>
+
+</body>
+
+</html>

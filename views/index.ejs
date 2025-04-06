@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>My Portfolio</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+    <header>
+        <h1>My Portfolio</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/projects">Projects</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="hero">
+            <h1>Hi, I'm Dikshit Yadav 👋</h1>
+            <p>A passionate Full-Stack Developer creating modern and responsive web apps.</p>
+            <a href="/projects" class="btn primary">🚀 View Projects</a>
+        </section>
+
+        <section id="about-summary">
+            <h2>About Me</h2>
+            <p>
+                I specialize in building dynamic and interactive websites using technologies like Node.js,
+                Express, MongoDB, and EJS. I'm always exploring new technologies and working on exciting
+                side projects!
+            </p>
+            <a href="/about" class="btn">📘 More About Me</a>
+        </section>
+
+        <section id="projects">
+            <h2>Featured Projects</h2>
+
+            <div class="project-grid">
+                <% if (projects && projects.length > 0) { %>
+                    <% projects.forEach(project => { %>
+                        <div class="project-card">
+                            <h3><%= project.name %></h3>
+
+                            <% if (project.image) { %>
+                                <img src="/uploads/<%= project.image %>" alt="<%= project.name %>" width="300" />
+                            <% } else { %>
+                                <p><em>No image available.</em></p>
+                            <% } %>
+
+                            <p><%= project.description %></p>
+
+                            <p><strong>Technologies:</strong> 
+                                <%= project.technologies?.length ? project.technologies.join(", ") : 'N/A' %>
+                            </p>
+
+                            <div class="project-links">
+                                <% if (project.liveDemo && project.liveDemo.trim()) { %>
+                                    <a href="<%= project.liveDemo %>" class="btn btn-success" target="_blank">🌐 Live Demo</a>
+                                <% } else { %>
+                                    <span class="disabled-link">No Live Demo</span>
+                                <% } %>
+
+                                <% if (project.githubLink && project.githubLink.trim()) { %>
+                                    <a href="<%= project.githubLink %>" class="btn btn-dark" target="_blank">🐱 GitHub</a>
+                                <% } else { %>
+                                    <span class="disabled-link">No GitHub Link</span>
+                                <% } %>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <p>No projects available.</p>
+                <% } %>
+            </div>
+        </section>
+
+        <section id="cta">
+            <h2>Let's Work Together</h2>
+            <p>Have a project in mind or want to collaborate? Feel free to reach out!</p>
+            <a href="/contact" class="btn primary">📬 Contact Me</a>
+        </section>
+    </main>
+
+    <footer>
+        <ul class="footer-nav">
+          <li><a href="/">Home</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/projects">Projects</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+    
+      <div class="social-links">
+        <a href="https://github.com/Dikshit-Yadav/Projects" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/in/dikshit-yadav-1b727a293/" target="_blank">LinkedIn</a>
+        <a href="mailto:2004dikshityadav@email.com">Email</a>
+      </div>
+    
+      <p>&copy; <%= new Date().getFullYear() %> Dikshit Yadav</p>
+    </footer>
+</body>
+
+</html>
