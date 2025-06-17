@@ -36,7 +36,7 @@ app.set('views', path.join(__dirname, 'views'));
 //middleware
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
-app.use('/uploads', express.static('uploads'));
+app.use( express.static('uploads'));
 
 
 //home 
@@ -73,12 +73,21 @@ app.get('/projects/new', (req, res) => {
 //new route
 app.post('/projects', upload.single('image'), async (req, res) => {
   const { name, description, liveDemo, githubLink, technologies } = req.body;
+
+   // Convert uploaded image to Base64
+  let imageBase64 = "";
+  if (req.file) {
+    const contentType = req.file.mimetype;
+    const base64Data = req.file.buffer.toString('base64');
+    imageBase64 = `data:${contentType};base64,${base64Data}`;
+  }
+
   const project = new Project({
     name,
     description,
     liveDemo,
     githubLink,
-    image: req.file.filename,
+    image: imageBase64,
     technologies: technologies.split(',').map(t => t.trim())
   });
   await project.save();

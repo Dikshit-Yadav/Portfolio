@@ -39,7 +39,8 @@
                             </p>
 
                             <% if (project.image) { %>
-                                <img src="/uploads/<%= project.image %>" alt="<%= project.name %>" width="300">
+                                <!-- <img src="/uploads/<%= project.image %>" alt="<%= project.name %>" width="300"> -->
+                                 <img src="<%= project.image %>" alt="<%= project.name %>" width="300">
                                 <% } else { %>
                                     <p><em>No image available.</em></p>
                                     <% } %>
@@ -86,22 +87,22 @@
     </main>
 
     <footer>
-          <ul class="footer-nav">
+        <ul class="footer-nav">
             <li><a href="/">Home</a></li>
             <li><a href="/about">About</a></li>
             <li><a href="/projects">Projects</a></li>
             <li><a href="/contact">Contact</a></li>
-          </ul>
-      
+        </ul>
+
         <div class="social-links">
-          <a href="https://github.com/Dikshit-Yadav/Projects" target="_blank">GitHub</a>
-          <a href="https://www.linkedin.com/in/dikshit-yadav-1b727a293/" target="_blank">LinkedIn</a>
-          <a href="mailto:2004dikshityadav@email.com">Email</a>
+            <a href="https://github.com/Dikshit-Yadav/Projects" target="_blank">GitHub</a>
+            <a href="https://www.linkedin.com/in/dikshit-yadav-1b727a293/" target="_blank">LinkedIn</a>
+            <a href="mailto:2004dikshityadav@email.com">Email</a>
         </div>
-      
+
         <p>&copy; <%= new Date().getFullYear() %> Dikshit Yadav</p>
-      </footer>
-      
+    </footer>
+
 
 </body>
 
