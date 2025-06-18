@@ -6,6 +6,7 @@ const Project = require('./models/Project');
 const path = require('path');
 const app = express();
 const port = 5000;
+const sharp = require('sharp');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
