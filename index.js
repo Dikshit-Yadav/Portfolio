@@ -167,7 +167,7 @@ app.post('/projects/:id/edit', upload.single('image'), async (req, res) => {
 
   try {
     const project = await Project.findById(req.params.id);
-    let imageBase64 = project.image; // default to old image
+    let imageBase64 = project.image; 
 
     if (req.file) {
       const compressedBuffer = await sharp(req.file.buffer)
