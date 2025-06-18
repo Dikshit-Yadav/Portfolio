@@ -77,9 +77,20 @@ app.post('/projects', upload.single('image'), async (req, res) => {
    // Convert uploaded image to Base64
   let imageBase64 = "";
   if (req.file) {
-    const contentType = req.file.mimetype;
-    const base64Data = req.file.buffer.toString('base64');
-    imageBase64 = `data:${contentType};base64,${base64Data}`;
+    try {
+      // Compress image using sharp
+      const compressedBuffer = await sharp(req.file.buffer)
+        .resize({ width: 800 })  // Resize image width to 800px (you can change this)
+        .jpeg({ quality: 70 })   // Compress quality (0-100)
+        .toBuffer();
+
+      // Convert compressed buffer to Base64
+      const base64Data = compressedBuffer.toString('base64');
+      imageBase64 = `data:image/jpeg;base64,${base64Data}`;
+    } catch (err) {
+      console.error("Error processing image:", err);
+      return res.status(500).send("Image processing error");
+    }
   }
 
   const project = new Project({
