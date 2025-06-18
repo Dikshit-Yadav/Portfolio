@@ -8,18 +8,21 @@ const app = express();
 const port = 5000;
 const sharp = require('sharp');
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    const uniqueName = `${Date.now()}-${Math.round(Math.random() * 1E9)}${ext}`;
-    cb(null, uniqueName);
-  }
-});
+const storage = multer.memoryStorage();
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, 'uploads/');
+//   },
+//   filename: (req, file, cb) => {
+//     const ext = path.extname(file.originalname);
+//     const uniqueName = `${Date.now()}-${Math.round(Math.random() * 1E9)}${ext}`;
+//     cb(null, uniqueName);
+//   }
+// });
 
-const upload = multer({ storage});
+// const upload = multer({ storage});
+const upload = multer({ storage: storage });
+
 main().then(res => {
   console.log("Succesfully Connected.");
 }).catch(err => {
@@ -72,22 +75,51 @@ app.get('/projects/new', (req, res) => {
 });
 
 //new route
+// app.post('/projects', upload.single('image'), async (req, res) => {
+//   const { name, description, liveDemo, githubLink, technologies } = req.body;
+
+//    // Convert uploaded image to Base64
+//   let imageBase64 = "";
+//   if (req.file) {
+//     try {
+//       // Compress image using sharp
+//       const compressedBuffer = await sharp(req.file.buffer)
+//         .resize({ width: 800 })  // Resize image width to 800px (you can change this)
+//         .jpeg({ quality: 70 })   // Compress quality (0-100)
+//         .toBuffer();
+
+//       // Convert compressed buffer to Base64
+//       const base64Data = compressedBuffer.toString('base64');
+//       imageBase64 = `data:image/jpeg;base64,${base64Data}`;
+//     } catch (err) {
+//       console.error("Error processing image:", err);
+//       return res.status(500).send("Image processing error");
+//     }
+//   }
+
+//   const project = new Project({
+//     name,
+//     description,
+//     liveDemo,
+//     githubLink,
+//     image: imageBase64,
+//     technologies: technologies.split(',').map(t => t.trim())
+//   });
+//   await project.save();
+//   res.redirect('/projects');
+// });
 app.post('/projects', upload.single('image'), async (req, res) => {
   const { name, description, liveDemo, githubLink, technologies } = req.body;
 
-   // Convert uploaded image to Base64
   let imageBase64 = "";
   if (req.file) {
     try {
-      // Compress image using sharp
       const compressedBuffer = await sharp(req.file.buffer)
-        .resize({ width: 800 })  // Resize image width to 800px (you can change this)
-        .jpeg({ quality: 70 })   // Compress quality (0-100)
+        .resize({ width: 800 })
+        .jpeg({ quality: 70 })
         .toBuffer();
 
-      // Convert compressed buffer to Base64
-      const base64Data = compressedBuffer.toString('base64');
-      imageBase64 = `data:image/jpeg;base64,${base64Data}`;
+      imageBase64 = `data:image/jpeg;base64,${compressedBuffer.toString('base64')}`;
     } catch (err) {
       console.error("Error processing image:", err);
       return res.status(500).send("Image processing error");
@@ -105,6 +137,7 @@ app.post('/projects', upload.single('image'), async (req, res) => {
   await project.save();
   res.redirect('/projects');
 });
+
 
 //delete
 app.post('/projects/:id/delete', async (req, res) => {
@@ -134,6 +167,16 @@ app.post('/projects/:id/edit', upload.single('image'), async (req, res) => {
 
   try {
     const project = await Project.findById(req.params.id);
+    let imageBase64 = project.image; // default to old image
+
+    if (req.file) {
+      const compressedBuffer = await sharp(req.file.buffer)
+        .resize({ width: 800 })
+        .jpeg({ quality: 70 })
+        .toBuffer();
+
+      imageBase64 = `data:image/jpeg;base64,${compressedBuffer.toString('base64')}`;
+    }
 
     const updatedData = {
       name,
@@ -141,13 +184,14 @@ app.post('/projects/:id/edit', upload.single('image'), async (req, res) => {
       githubLink,
       liveDemo,
       technologies: technologies ? technologies.split(',').map(t => t.trim()) : [],
+      image: imageBase64
     };
 
-    if (req.file) {
-      updatedData.image = req.file.filename;
-    } else {
-      updatedData.image = project.image;
-    }
+    // if (req.file) {
+    //   updatedData.image = req.file.filename;
+    // } else {
+    //   updatedData.image = project.image;
+    // }
 
     await Project.findByIdAndUpdate(req.params.id, updatedData);
     res.redirect('/projects');
