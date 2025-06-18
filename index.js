@@ -47,7 +47,8 @@ app.use( express.static('uploads'));
 app.get('/', async (req, res) => {
   try {
     const projects = await Project.find().sort({ _id: -1 }).limit(3);
-    res.render('index', { title: "My Portfolio", projects });
+    const adminMode = req.query.admin === "true";
+    res.render('index', { title: "My Portfolio", projects, adminMode});
   } catch (err) {
     console.error("Error fetching projects:", err);
     res.status(500).send("Internal Server Error");
@@ -66,7 +67,8 @@ app.get('/contact', (req, res) => {
 
 app.get('/projects', async (req, res) => {
   const projects = await Project.find();
-  res.render('projects', { title: "Projects", projects });
+  const adminMode = req.query.admin === "true";
+  res.render('projects', { title: "Projects", projects,adminMode });
 });
 
 //new project

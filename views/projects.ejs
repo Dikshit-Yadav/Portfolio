@@ -25,7 +25,10 @@
     <main>
         <section id="all-projects">
             <h2>My Projects</h2>
+            
+            <% if (adminMode) { %>
             <a href="/projects/new" class="btn btn-primary">➕ Add New Project</a>
+                <% } %>
 
             <div class="project-list">
                 <% if (projects && projects.length> 0) { %>
@@ -68,13 +71,17 @@
                                         </p>
 
                                         <div class="project-actions">
+                                            <% if (adminMode) { %>
                                             <a href="/projects/<%= project._id %>/edit" class="btn btn-warning">✏️
                                                 Edit</a>
+                                                <% } %>
+                                                <% if (adminMode) { %>
                                             <form action="/projects/<%= project._id %>/delete" method="POST"
                                                 style="display:inline;">
                                                 <button type="submit" onclick="return confirm('Are you sure?')"
                                                     class="btn btn-danger">🗑️ Delete</button>
                                             </form>
+                                            <% } %>
                                         </div>
                         </div>
                         <% }); %>
