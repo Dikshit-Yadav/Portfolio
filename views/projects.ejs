@@ -4,112 +4,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Projects</title>
+    <title>My Assignment</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
 
-    <header>
-        <h1>Hi, I'm Dikshit Yadav 👋</h1>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="/projects">Projects</a></li>
-                <li><a href="/contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+<%- include('./partials/header') %>
 
-    <main>
-        <section id="all-projects">
-            <h2>My Projects</h2>
-            
-            <% if (adminMode) { %>
-            <a href="/projects/new" class="btn btn-primary">➕ Add New Project</a>
+<main>
+<section id="all-projects">
+
+    <h2>My Assignments</h2>
+
+    <% if (adminMode) { %>
+        <a href="/assignments/new" class="btn btn-primary">➕ Add New Assignments</a>
+    <% } %>
+
+    <div class="project-list">
+
+        <% if (projects && projects.length > 0) { %>
+
+            <% projects.forEach(project => { %>
+
+            <div class="project-item">
+
+                <h3><%= project.name %></h3>
+
+                <p><%= project.description %></p>
+
+                <% if (project.image) { %>
+                    <img src="<%= project.image %>" alt="<%= project.name %>" width="300">
+                <% } else { %>
+                    <p><em>No image available.</em></p>
                 <% } %>
 
-            <div class="project-list">
-                <% if (projects && projects.length> 0) { %>
-                    <% projects.forEach(project=> { %>
-                        <div class="project-item">
-                            <h3>
-                                <%= project.name %>
-                            </h3>
-                            <p>
-                                <%= project.description %>
-                            </p>
+                <div class="project-links">
 
-                            <% if (project.image) { %>
-                                 <img src="<%= project.image %>" alt="<%= project.name %>" width="300">
-                                <% } else { %>
-                                    <p><em>No image available.</em></p>
-                                    <% } %>
+                    <% if (project.liveDemo && project.liveDemo.trim()) { %>
+                        <a href="<%= project.liveDemo %>" target="_blank" class="btn btn-success">
+                            🌐 Live Demo
+                        </a>
+                    <% } else { %>
+                        <span class="disabled-link">No Live Demo</span>
+                    <% } %>
 
-                                        <div class="project-links">
-                                            <% if (project.liveDemo && project.liveDemo.trim()) { %>
-                                                <a href="<%= project.liveDemo %>" target="_blank"
-                                                    class="btn btn-success">🌐 Live Demo</a>
-                                                <% } else { %>
-                                                    <span class="disabled-link">No Live Demo</span>
-                                                    <% } %>
+                    <% if (project.githubLink && project.githubLink.trim()) { %>
+                        <a href="<%= project.githubLink %>" target="_blank" class="btn btn-dark">
+                            🐱 GitHub
+                        </a>
+                    <% } else { %>
+                        <span class="disabled-link">No GitHub Link</span>
+                    <% } %>
 
-                                                        <% if (project.githubLink && project.githubLink.trim()) { %>
-                                                            <a href="<%= project.githubLink %>" target="_blank"
-                                                                class="btn btn-dark">🐱 GitHub</a>
-                                                            <% } else { %>
-                                                                <span class="disabled-link">No GitHub Link</span>
-                                                                <% } %>
-                                        </div>
+                </div>
 
-                                        <p class="technologies">
-                                            Technologies:
-                                            <%= project.technologies && project.technologies.length> 0
-                                                ? project.technologies.join(', ')
-                                                : 'N/A' %>
-                                        </p>
+                <p class="technologies">
+                    Technologies:
+                    <%= project.technologies && project.technologies.length > 0
+                        ? project.technologies.join(', ')
+                        : 'N/A'
+                    %>
+                </p>
 
-                                        <div class="project-actions">
-                                            <% if (adminMode) { %>
-                                            <a href="/projects/<%= project._id %>/edit" class="btn btn-warning">✏️
-                                                Edit</a>
-                                                <% } %>
-                                                <% if (adminMode) { %>
-                                            <form action="/projects/<%= project._id %>/delete" method="POST"
-                                                style="display:inline;">
-                                                <button type="submit" onclick="return confirm('Are you sure?')"
-                                                    class="btn btn-danger">🗑️ Delete</button>
-                                            </form>
-                                            <% } %>
-                                        </div>
-                        </div>
-                        <% }); %>
-                            <% } else { %>
-                                <p>No projects available.</p>
-                                <% } %>
+                <div class="project-actions">
+
+                    <% if (adminMode) { %>
+                        <a href="/assignments/<%= project._id %>/edit" class="btn btn-warning">
+                            ✏️ Edit
+                        </a>
+                    <% } %>
+
+                    <% if (adminMode) { %>
+                        <form action="/assignments/<%= project._id %>/delete" method="POST" style="display:inline;">
+                            <button
+                                type="submit"
+                                onclick="return confirm('Are you sure?')"
+                                class="btn btn-danger"
+                            >
+                                🗑️ Delete
+                            </button>
+                        </form>
+                    <% } %>
+
+                </div>
+
             </div>
-        </section>
-    </main>
 
-    <footer>
-        <ul class="footer-nav">
-            <li><a href="/">Home</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/projects">Projects</a></li>
-            <li><a href="/contact">Contact</a></li>
-        </ul>
+            <% }); %>
 
-        <div class="social-links">
-            <a href="https://github.com/Dikshit-Yadav/Projects" target="_blank">GitHub</a>
-            <a href="https://www.linkedin.com/in/dikshit-yadav-1b727a293/" target="_blank">LinkedIn</a>
-            <a href="mailto:2004dikshityadav@email.com">Email</a>
-        </div>
+        <% } else { %>
 
-        <p>&copy; <%= new Date().getFullYear() %> Dikshit Yadav</p>
-    </footer>
+            <p>No projects available.</p>
 
+        <% } %>
+
+    </div>
+
+</section>
+</main>
+
+<%- include('./partials/footer') %>
 
 </body>
-
 </html>

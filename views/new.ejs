@@ -12,20 +12,10 @@
 
 <body>
 
-    <header>
-        <h1>Hi, I'm Dikshit Yadav 👋</h1>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="/projects">Projects</a></li>
-                <li><a href="/contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+    <%- include('./partials/header') %>
 
-    <h2>Add New Project</h2>
-    <form id="projectForm" action="/projects" method="POST" enctype="multipart/form-data">
+    <h2>Add <%= title %> </h2>
+    <form id="projectForm" action=<%= route %> method="POST" enctype="multipart/form-data">
     
         <label for="name">Project Name:</label>
         <input type="text" id="name" name="name" required>
@@ -48,22 +38,7 @@
         <button type="submit">Add Project</button>
     </form>
     
-    <footer>
-        <ul class="footer-nav">
-          <li><a href="/">Home</a></li>
-          <li><a href="/about">About</a></li>
-          <li><a href="/projects">Projects</a></li>
-          <li><a href="/contact">Contact</a></li>
-        </ul>
-    
-      <div class="social-links">
-        <a href="https://github.com/Dikshit-Yadav/Projects" target="_blank">GitHub</a>
-        <a href="https://www.linkedin.com/in/dikshit-yadav-1b727a293/" target="_blank">LinkedIn</a>
-        <a href="mailto:2004dikshityadav@email.com">Email</a>
-      </div>
-    
-      <p>&copy; <%= new Date().getFullYear() %> Dikshit Yadav</p>
-    </footer>
+    <%- include('./partials/footer') %>
 
 </body>
 

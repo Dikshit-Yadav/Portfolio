@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Projects</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<%- include('./partials/header') %>
+
+<main>
+<section id="all-projects">
+
+    <h2>My Projects</h2>
+
+    <% if (adminMode) { %>
+        <a href="/project/new" class="btn btn-primary">➕ Add New project</a>
+    <% } %>
+
+    <div class="project-list">
+
+        <% if (projects && projects.length > 0) { %>
+
+            <% projects.forEach(project => { %>
+
+            <div class="project-item">
+
+                <h3><%= project.name %></h3>
+
+                <p><%= project.description %></p>
+
+                <% if (project.image) { %>
+                    <img src="<%= project.image %>" alt="<%= project.name %>" width="300">
+                <% } else { %>
+                    <p><em>No image available.</em></p>
+                <% } %>
+
+                <div class="project-links">
+
+                    <% if (project.liveDemo && project.liveDemo.trim()) { %>
+                        <a href="<%= project.liveDemo %>" target="_blank" class="btn btn-success">
+                            🌐 Live Demo
+                        </a>
+                    <% } else { %>
+                        <span class="disabled-link">No Live Demo</span>
+                    <% } %>
+
+                    <% if (project.githubLink && project.githubLink.trim()) { %>
+                        <a href="<%= project.githubLink %>" target="_blank" class="btn btn-dark">
+                            🐱 GitHub
+                        </a>
+                    <% } else { %>
+                        <span class="disabled-link">No GitHub Link</span>
+                    <% } %>
+
+                </div>
+
+                <p class="technologies">
+                    Technologies:
+                    <%= project.technologies && project.technologies.length > 0
+                        ? project.technologies.join(', ')
+                        : 'N/A'
+                    %>
+                </p>
+
+                <div class="project-actions">
+
+                    <% if (adminMode) { %>
+                        <a href="/project/<%= project._id %>/edit" class="btn btn-warning">
+                            ✏️ Edit
+                        </a>
+                    <% } %>
+
+                    <% if (adminMode) { %>
+                        <form action="/project/<%= project._id %>/delete" method="POST" style="display:inline;">
+                            <button
+                                type="submit"
+                                onclick="return confirm('Are you sure?')"
+                                class="btn btn-danger"
+                            >
+                                🗑️ Delete
+                            </button>
+                        </form>
+                    <% } %>
+
+                </div>
+
+            </div>
+
+            <% }); %>
+
+        <% } else { %>
+
+            <p>No projects available.</p>
+
+        <% } %>
+
+    </div>
+
+</section>
+</main>
+
+<%- include('./partials/footer') %>
+
+</body>
+</html>

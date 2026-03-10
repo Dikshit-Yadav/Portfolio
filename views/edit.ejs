@@ -4,26 +4,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Projects</title>
+  <title>My <%= title %></title>
   <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
 
-  <header>
-    <h1>Hi, I'm Dikshit Yadav 👋</h1>
-    <nav>
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/projects">Projects</a></li>
-            <li><a href="/contact">Contact</a></li>
-        </ul>
-    </nav>
-</header>
-  <h2>Edit Project</h2>
+  <%- include('./partials/header') %>
+  <h2>Edit <%= title %></h2>
 
-  <form action="/projects/<%= project._id %>/edit" method="POST" enctype="multipart/form-data">
+  <form action="<%= route %>/<%= project._id %>/edit" method="POST" enctype="multipart/form-data">
     <label>Project Name:</label>
     <input type="text" name="name" value="<%= project.name %>" required>
   
@@ -52,22 +42,7 @@
     <button type="submit">Update Project</button>
   </form>
   
-  <footer>
-    <ul class="footer-nav">
-      <li><a href="/">Home</a></li>
-      <li><a href="/about">About</a></li>
-      <li><a href="/projects">Projects</a></li>
-      <li><a href="/contact">Contact</a></li>
-    </ul>
-
-  <div class="social-links">
-    <a href="https://github.com/Dikshit-Yadav/Projects" target="_blank">GitHub</a>
-    <a href="https://www.linkedin.com/in/dikshit-yadav-1b727a293/" target="_blank">LinkedIn</a>
-    <a href="mailto:2004dikshityadav@email.com">Email</a>
-  </div>
-
-  <p>&copy; <%= new Date().getFullYear() %> Dikshit Yadav</p>
-</footer>
+  <%- include('./partials/footer') %>
 
 
 </body>

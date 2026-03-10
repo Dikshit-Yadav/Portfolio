@@ -3,8 +3,10 @@ const mongoose = require('mongoose');
 const multer = require('multer');
 const bodyParser = require('body-parser');
 const Project = require('./models/Project');
+const Mproject = require("./models/MajorProject")
 const path = require('path');
 const app = express();
+const nodemailer = require('nodemailer');
 const port = 5000;
 const sharp = require('sharp');
 
@@ -65,15 +67,15 @@ app.get('/contact', (req, res) => {
   )
 });
 
-app.get('/projects', async (req, res) => {
+app.get('/assignments', async (req, res) => {
   const projects = await Project.find();
   const adminMode = req.query.admin === "true";
   res.render('projects', { title: "Projects", projects,adminMode });
 });
 
-//new project
-app.get('/projects/new', (req, res) => {
-  res.render('new', { title: "Add New Project" });
+//new assignment
+app.get('/assignments/new', (req, res) => {
+  res.render('new', { title: "Add New Assignment", route: "/assignments" });
 });
 
 //new route
@@ -110,7 +112,7 @@ app.get('/projects/new', (req, res) => {
 //   await project.save();
 //   res.redirect('/projects');
 // });
-app.post('/projects', upload.single('image'), async (req, res) => {
+app.post('/assignments', upload.single('image'), async (req, res) => {
   const { name, description, liveDemo, githubLink, technologies } = req.body;
 
   let imageBase64 = "";
@@ -137,15 +139,15 @@ app.post('/projects', upload.single('image'), async (req, res) => {
     technologies: technologies.split(',').map(t => t.trim())
   });
   await project.save();
-  res.redirect('/projects');
+  res.redirect('/assignments');
 });
 
 
 //delete
-app.post('/projects/:id/delete', async (req, res) => {
+app.post('/assignments/:id/delete', async (req, res) => {
   try {
     await Project.findByIdAndDelete(req.params.id);
-    res.redirect('/projects');
+    res.redirect('/assignments');
   } catch (err) {
     console.error("Error deleting project:", err);
     res.status(500).send("Internal Server Error");
@@ -153,10 +155,10 @@ app.post('/projects/:id/delete', async (req, res) => {
 });
 
 //edit file
-app.get('/projects/:id/edit', async (req, res) => {
+app.get('/assignments/:id/edit', async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
-    res.render('edit', { title: "Edit Project", project });
+    res.render('edit', { title: "Assignment", project, route:"/assignments" });
   } catch (err) {
     console.error("Error fetching project:", err);
     res.status(500).send("Internal Server Error");
@@ -164,7 +166,7 @@ app.get('/projects/:id/edit', async (req, res) => {
 });
 
 //edit route
-app.post('/projects/:id/edit', upload.single('image'), async (req, res) => {
+app.post('/assignments/:id/edit', upload.single('image'), async (req, res) => {
   const { name, description, githubLink, liveDemo, technologies } = req.body;
 
   try {
@@ -196,7 +198,7 @@ app.post('/projects/:id/edit', upload.single('image'), async (req, res) => {
     // }
 
     await Project.findByIdAndUpdate(req.params.id, updatedData);
-    res.redirect('/projects');
+    res.redirect('/assignments');
   } catch (err) {
     console.error('Error updating project:', err);
     res.status(500).send('Error updating project');
@@ -204,8 +206,6 @@ app.post('/projects/:id/edit', upload.single('image'), async (req, res) => {
 });
 
 //contact
-const nodemailer = require('nodemailer');
-
 app.post('/contact', (req, res) => {
   const { name, email, message } = req.body;
 
@@ -218,8 +218,8 @@ app.post('/contact', (req, res) => {
   });
 
   const mailOptions = {
-    from: email,
-    to: 'aakashbalhara005@gmail.com',  
+    from: '2004dikshityadav@gmail.com',
+    to: email,  
     subject: `New message from ${name}`,
     text: `You received a message from ${name} (${email}):\n\n${message}`
   };
@@ -240,5 +240,111 @@ app.post('/contact', (req, res) => {
     }
   });
 });
+
+
+//show projects
+app.get('/projects', async (req, res) => {
+  const projects = await Mproject.find();
+  const adminMode = req.query.admin === "true";
+  res.render('Mproject', { title: "Projects", projects,adminMode });
+});
+
+//new Mproject
+app.get('/project/new', (req, res) => {
+  res.render('new', { title: "Add New Project", route: "/project" });
+});
+//create project
+app.post('/project', upload.single('image'), async (req, res) => {
+  const { name, description, liveDemo, githubLink, technologies } = req.body;
+
+  let imageBase64 = "";
+  if (req.file) {
+    try {
+      const compressedBuffer = await sharp(req.file.buffer)
+        .resize({ width: 800 })
+        .jpeg({ quality: 70 })
+        .toBuffer();
+
+      imageBase64 = `data:image/jpeg;base64,${compressedBuffer.toString('base64')}`;
+    } catch (err) {
+      console.error("Error processing image:", err);
+      return res.status(500).send("Image processing error");
+    }
+  }
+
+  const project = new Mproject({
+    name,
+    description,
+    liveDemo,
+    githubLink,
+    image: imageBase64,
+    technologies: technologies.split(',').map(t => t.trim())
+  });
+  await project.save();
+  res.redirect('/projects');
+});
+
+//delete project
+app.post('/project/:id/delete', async (req, res) => {
+  try {
+    await Mproject.findByIdAndDelete(req.params.id);
+    res.redirect('/projects');
+  } catch (err) {
+    console.error("Error deleting project:", err);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+//edit file
+app.get('/project/:id/edit', async (req, res) => {
+  try {
+    const project = await Mproject.findById(req.params.id);
+    res.render('edit', { title: "Project", project, route: "/project" });
+  } catch (err) {
+    console.error("Error fetching project:", err);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+//edit route
+app.post('/project/:id/edit', upload.single('image'), async (req, res) => {
+  const { name, description, githubLink, liveDemo, technologies } = req.body;
+
+  try {
+    const project = await Mproject.findById(req.params.id);
+    let imageBase64 = project.image; 
+
+    if (req.file) {
+      const compressedBuffer = await sharp(req.file.buffer)
+        .resize({ width: 800 })
+        .jpeg({ quality: 70 })
+        .toBuffer();
+
+      imageBase64 = `data:image/jpeg;base64,${compressedBuffer.toString('base64')}`;
+    }
+
+    const updatedData = {
+      name,
+      description,
+      githubLink,
+      liveDemo,
+      technologies: technologies ? technologies.split(',').map(t => t.trim()) : [],
+      image: imageBase64
+    };
+
+    // if (req.file) {
+    //   updatedData.image = req.file.filename;
+    // } else {
+    //   updatedData.image = project.image;
+    // }
+
+    await Mproject.findByIdAndUpdate(req.params.id, updatedData);
+    res.redirect('/projects');
+  } catch (err) {
+    console.error('Error updating project:', err);
+    res.status(500).send('Error updating project');
+  }
+});
+
 
 app.listen(port, () => console.log(`Server running at http://localhost:${port}`));

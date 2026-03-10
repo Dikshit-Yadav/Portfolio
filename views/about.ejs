@@ -10,17 +10,7 @@
 
 <body>
 
-    <header>
-        <h1>Hi, I'm Dikshit Yadav 👋</h1>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="/projects">Projects</a></li>
-                <li><a href="/contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+   <%- include('./partials/header') %>
 
     <main>
         <section id="about" class="container">
@@ -48,22 +38,7 @@
         </section>
     </main>
 
-    <footer>
-        <ul class="footer-nav">
-          <li><a href="/">Home</a></li>
-          <li><a href="/about">About</a></li>
-          <li><a href="/projects">Projects</a></li>
-          <li><a href="/contact">Contact</a></li>
-        </ul>
-    
-      <div class="social-links">
-        <a href="https://github.com/Dikshit-Yadav/Projects" target="_blank">GitHub</a>
-        <a href="https://www.linkedin.com/in/dikshit-yadav-1b727a293/" target="_blank">LinkedIn</a>
-        <a href="mailto:2004dikshityadav@email.com">Email</a>
-      </div>
-    
-      <p>&copy; <%= new Date().getFullYear() %> Dikshit Yadav</p>
-    </footer>
+    <%- include('./partials/footer') %>
 
 </body>
 
