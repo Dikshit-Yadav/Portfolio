@@ -43,7 +43,9 @@
                                 <p><em>No image available.</em></p>
                             <% } %>
 
-                            <p><%= project.description %></p>
+                           <p>
+  <%= project.description.length > 400 ? project.description.substring(0, 400) + '...' : project.description %>
+</p>
 
                             <p><strong>Technologies:</strong> 
                                 <%= project.technologies?.length ? project.technologies.join(", ") : 'N/A' %>
