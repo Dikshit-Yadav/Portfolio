@@ -48,7 +48,7 @@ app.use( express.static('uploads'));
 //home 
 app.get('/', async (req, res) => {
   try {
-    const projects = await Project.find().sort({ _id: -1 }).limit(3);
+    const projects = await Mproject.find().sort({ _id: -1 }).limit(4);
     const adminMode = req.query.admin === "true";
     res.render('index', { title: "My Portfolio", projects, adminMode});
   } catch (err) {
